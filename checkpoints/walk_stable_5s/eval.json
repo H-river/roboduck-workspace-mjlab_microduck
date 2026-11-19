@@ -1,0 +1,32 @@
+{
+  "checkpoint": "/home/jiamo/Microduck-build-tutorial-main/mjlab_microduck/logs/rsl_rl/mjlab_microduck_velocity/2026-10-16_17-43-09/model_1300.pt",
+  "passed": true,
+  "num_envs": 64,
+  "command_vx": 0.2,
+  "seconds": 5.0,
+  "survived": 64,
+  "reached_distance": 64,
+  "required_forward_m": 0.6,
+  "forward_m": {
+    "min": 0.627,
+    "median": 0.694,
+    "max": 0.803
+  },
+  "lateral_m": {
+    "min": -0.176,
+    "median": -0.006,
+    "max": 0.116
+  },
+  "mean_vx": {
+    "min": 0.131,
+    "median": 0.141,
+    "max": 0.162
+  },
+  "max_tilt_deg": {
+    "min": 4.266,
+    "median": 4.766,
+    "max": 5.721
+  },
+  "fail_reasons": {},
+  "source_run": "/home/jiamo/Microduck-build-tutorial-main/mjlab_microduck/logs/rsl_rl/mjlab_microduck_velocity/2026-10-16_17-43-09"
+}

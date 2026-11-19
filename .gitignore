@@ -4,7 +4,10 @@ src/mjlab_microduck/robot/microduck/scad/
 
 .vscode/*
 .venv/*
-uv.lock
 
 logs/*
 wandb/*
+
+# RoboDuck: checkpoints are not in git (no git-lfs); sizes + sha256 are listed in the workspace HANDOFF.md
+checkpoints/**/*.pt
+checkpoints/**/videos/
