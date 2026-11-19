@@ -34,5 +34,5 @@ override-dependencies = [
 ]
 
 [tool.uv.sources]
-better-actuator-models = { git = "https://github.com/rhoban/bam.git", branch = "doc" }
+better-actuator-models = { git = "https://github.com/rhoban/bam.git", rev = "0007411bd82c48f1bc12ae8382f98e4d8b879c95" }  # tip of the doc branch when locked (2026-10-16); pinned so `uv lock` cannot drift
 

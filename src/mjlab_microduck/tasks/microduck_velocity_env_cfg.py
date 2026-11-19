@@ -8,6 +8,7 @@
 
 """Microduck velocity environment"""
 
+import dataclasses
 import numpy as np
 from copy import deepcopy
 
@@ -70,6 +71,7 @@ from mjlab_microduck.tasks.mdp import (
     penalize_stepping_while_standing,
     stepping_curriculum,
     UniformVelocityCommandWithRotation,
+    UniformVelocityCommandWithRotationCfg,
     action_target_limits_l2,
     mounted_body_ang_vel,
     mounted_body_projected_gravity,
@@ -326,8 +328,13 @@ def make_microduck_velocity_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     )
 
     #---------------------------- Commands --------------------------
-    command = cfg.commands["twist"]
-    command.build = lambda env, _cmd=command: UniformVelocityCommandWithRotation(_cmd, env)
+    # RoboDuck fix (was `command.build = lambda env, _cmd=command: ...`): the lambda bound the cfg
+    # object from before the command manager deep-copies it, so the staged curriculum's
+    # set_command_velocity(), which edits the manager's copy via get_term_cfg("twist"), never
+    # reached the sampler. UniformVelocityCommandWithRotationCfg.build() uses `self` instead.
+    _old = cfg.commands["twist"]
+    command = UniformVelocityCommandWithRotationCfg(**{f.name: getattr(_old, f.name) for f in dataclasses.fields(_old)})
+    cfg.commands["twist"] = command
     command.viz.z_offset = 0.5
 
     command.rel_standing_envs = 0.1
@@ -513,6 +520,7 @@ MicroduckVelocityRlCfg = RslRlOnPolicyRunnerCfg(
         max_grad_norm=1.0,
     ),
     wandb_project="mjlab_microduck_velocity",
+    logger="tensorboard",  # RoboDuck: was wandb (mjlab default), which blocks without WANDB_API_KEY; use --agent.logger wandb to opt in
     experiment_name="mjlab_microduck_velocity",
     save_interval=500,
     num_steps_per_env=24,
